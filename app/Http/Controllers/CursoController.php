@@ -13,7 +13,8 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
+        $cursos = Curso::all();
+        return view('cursos.index', compact('cursos'));
     }
 
     /**
@@ -23,7 +24,7 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+        return view('cursos.create');
     }
 
     /**
@@ -34,7 +35,17 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'precio' => 'required',
+            'categoria' => 'required',
+        ]);
+
+        Curso::create($validateData);
+
+        return redirect()->route('cursos.index')->with('success', 'Curso creado con exito');
     }
 
     /**
@@ -56,7 +67,8 @@ class CursoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $curso = Curso::findOrFail($id);
+        return view('cursos.edit', compact('estudiante'));
     }
 
     /**
@@ -68,7 +80,17 @@ class CursoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'precio' => 'required',
+            'categoria' => 'required',
+        ]);
+
+        Curso::whereId($id)->update($validatedData);
+
+        return redirect()->route('cursos.index')->with('success', 'Curso actulizado con exito');
     }
 
     /**
@@ -79,6 +101,7 @@ class CursoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Curso::destroy($id);
+        return redirect()->route('cursos.index')->with('succes', 'Curso Eliminado con exito');
     }
 }
