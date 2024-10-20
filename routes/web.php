@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\InscripcionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +21,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-//Rutas para mis modelos
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('cursos', CursoController::class);
-    Route::resource('instructores', InstructorController::class);
+
+    // Rutas para Estudiantes
     Route::resource('estudiantes', EstudianteController::class);
+
+    // Rutas para Instructores
+    Route::resource('instructores', InstructorController::class);
+
+    // Rutas para Cursos
+    Route::resource('cursos', CursoController::class);
+
+    // Rutas para Inscripciones
     Route::resource('inscripciones', InscripcionController::class);
 });
-
-//Ruta para Instructores
-Route::resource('instructores', InstructorController::class)->middleware('auth');
-
-//ruta para estudiantes
-
-Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
-
-//ruta para inscripciones
-
-Route::resource('inscripciones', InscripcionController::class)->middleware('auth');
-
 
 
 
