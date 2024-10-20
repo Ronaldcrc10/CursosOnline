@@ -13,7 +13,8 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        //
+        $inscripciones = Inscripcion::all();
+        return view('inscripciones.index', compact('inscripciones'));
     }
 
     /**
@@ -23,7 +24,7 @@ class InscripcionController extends Controller
      */
     public function create()
     {
-        //
+        return view('inscripciones.create');
     }
 
     /**
@@ -34,7 +35,17 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'curso_id' => 'required',
+            'instructor_id' => 'required',
+            'estudiante_id' => 'required',
+            'fecha_inscripcion' => 'required'
+
+        ]);
+
+        Inscripcion::create($validateData);
+
+        return redirect()->route('inscripciones.index')->with('success', 'Inscripcion realizada con exito');
     }
 
     /**
@@ -56,7 +67,8 @@ class InscripcionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $inscripcion = Inscripcion::findOrFail($id);
+        return view('cursos.edit', compact('estudiante'));
     }
 
     /**
@@ -68,7 +80,17 @@ class InscripcionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'curso_id' => 'required',
+            'instructor_id' => 'required',
+            'estudiante_id' => 'required',
+            'fecha_inscripcion' => 'required'
+
+        ]);
+
+        Inscripcion::whereId($id)->update($validateData);
+
+        return redirect()->route('inscripciones.index')->with('success', 'Inscripcion actulizada con exito');
     }
 
     /**
@@ -79,6 +101,7 @@ class InscripcionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Inscripcion::destroy($id);
+        return redirect()->route('inscripciones.index')->with('succes', 'Inscripcion elimnada con exito');
     }
 }
