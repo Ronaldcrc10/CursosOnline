@@ -13,7 +13,8 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        //
+        $instructores = Instructor::all();
+        return view('instructores.index', compact('instructores'));
     }
 
     /**
@@ -23,7 +24,7 @@ class InstructorController extends Controller
      */
     public function create()
     {
-        //
+        return view('instructores.create');
     }
 
     /**
@@ -34,7 +35,16 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'especialidad' => 'required',
+            'biografia' => 'required'
+        ]);
+
+        Instructor::create($validateData);
+
+        return redirect()->route('instructores.index')->with('success', 'Instructor registrado con exito');
     }
 
     /**
@@ -56,7 +66,8 @@ class InstructorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $instructor = Instrcutor::findOrFail($id);
+        return view('instructores.edit', compact('instructor'));
     }
 
     /**
@@ -68,7 +79,16 @@ class InstructorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'especialidad' => 'required',
+            'biografia' => 'required'
+        ]);
+
+        Instructor::whereId($id)->update($validateData);
+
+        return redirect()->route('instructores.index')->with('success', 'Instructor actualizado con exito');
     }
 
     /**
@@ -79,6 +99,7 @@ class InstructorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Instructor::destroy($id);
+        return redirect()->route('instructores.index')->with('succes', 'Instructor eliminado con exito');
     }
 }
