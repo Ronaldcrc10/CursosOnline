@@ -17,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//Rutas para mis modelos
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('cursos', CursoController::class);
+    Route::resource('instructores', InstructorController::class);
+    Route::resource('estudiantes', EstudianteController::class);
+    Route::resource('inscripciones', InscripcionController::class);
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
