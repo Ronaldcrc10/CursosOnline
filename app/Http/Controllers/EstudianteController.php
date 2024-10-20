@@ -13,7 +13,8 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        //
+        $estudiantes = Estudiante::all();
+        return view('estudiantes.index', compact('estudiantes'));
     }
 
     /**
@@ -23,7 +24,7 @@ class EstudianteController extends Controller
      */
     public function create()
     {
-        //
+        return view('estudiantes.create');
     }
 
     /**
@@ -34,7 +35,16 @@ class EstudianteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|email|unique:estudiantes',
+            'nivel_educativo' => 'required',
+        ]);
+
+        Estudiante::create($validatedData);
+
+        return redirect()->route('estudiantes.index')->with('success', 'Estudiante creado con éxito');
     }
 
     /**
@@ -56,7 +66,8 @@ class EstudianteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $estudiante = Estudiante::findOrFail($id);
+        return view('estudiantes.edit', compact('estudiante'));
     }
 
     /**
@@ -68,7 +79,16 @@ class EstudianteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|email|unique:estudiantes,email,' . $id,
+            'nivel_educativo' => 'required',
+        ]);
+
+        Estudiante::whereId($id)->update($validatedData);
+
+        return redirect()->route('estudiantes.index')->with('success', 'Estudiante actualizado con éxito');
     }
 
     /**
@@ -79,6 +99,7 @@ class EstudianteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Estudiante::destroy($id);
+        return redirect()->route('estudiantes.index')->with('success', 'Estudiante eliminado con éxito');
     }
 }
