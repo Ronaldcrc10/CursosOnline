@@ -26,6 +26,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('inscripciones', InscripcionController::class);
 });
 
+//Ruta para Instructores
+Route::resource('instructores', InstructorController::class)->middleware('auth');
+
+//ruta para estudiantes
+
+Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
+
+//ruta para inscripciones
+
+Route::resource('inscripciones', InscripcionController::class)->middleware('auth');
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -7,5 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inscripcion extends Model
 {
-    use HasFactory;
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class);
+    }
+
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class);
+    }
 }

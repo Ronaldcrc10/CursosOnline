@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('instructores', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('apellido');
+            $table->string('especialidad');
+            $table->text('biografia')->nullable();
             $table->timestamps();
         });
     }
